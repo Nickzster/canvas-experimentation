@@ -26,6 +26,13 @@ const detectCollision = (collisionComp1, collisionComp2) =>
   );
 
 const handleCollision = (vel1, vel2) => {
+  if (vel1 && vel2) {
+    if ((vel1.x > 0 && vel2.x > 0) || (vel1.x < 0 && vel2.x < 0)) {
+      vel1.vec.reverseY();
+      vel2.vec.reverseY();
+      return;
+    }
+  }
   if (vel1) vel1.vec.reverse();
   if (vel2) vel2.vec.reverse();
 };
