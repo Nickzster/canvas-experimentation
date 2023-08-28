@@ -1,52 +1,29 @@
 import { COMPONENT_TYPES } from "../../consts";
 import Component from "../Component";
 
-import { X, Y } from "../../consts";
-
 export default class BoxModelComponent extends Component {
+  id = -1;
   color;
-  speed;
-
-  location; //x,y
-  direction; //x,y
 
   w = 0;
   h = 0;
 
-  id = -1;
-
-  constructor({ color = "black", x = 0, y = 0, w = 0, h = 0, speed = 1 }) {
+  constructor({ color = "black", w = 0, h = 0 }) {
     super(COMPONENT_TYPES.BOX_MODEL_COMPONENT_TYPE);
-    this.location = [0, 0];
-    this.direction = [1, 1];
-    this.setAttributes({ color, x, y, w, h, speed });
+    this.setAttributes({ color, w, h });
     return this;
   }
 
-  setAttributes({ color, x = 0, y = 0, w = 0, h = 0, speed = 1 }) {
+  setAttributes({ color, w = 0, h = 0 }) {
     this.color = color;
-    this.location[X] = x;
-    this.location[Y] = y;
+
     this.w = w;
     this.h = h;
-    this.speed = speed;
     return this;
   }
 
   setId(newId) {
     this.id = newId;
-    return this;
-  }
-
-  setSpeed(newSpeed) {
-    this.speed = newSpeed;
-    return this;
-  }
-
-  setStartingLocation(x, y) {
-    this.location[X] = x;
-    this.location[Y] = y;
-
     return this;
   }
 
