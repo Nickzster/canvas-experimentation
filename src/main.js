@@ -23,7 +23,7 @@ const player = new Entity([
     h: 30,
   }),
   new LocationComponent({ x: center[X] - 100, y: CANVAS_HEIGHT - 40 }),
-  new VelocityComponent({ x: 0, y: 0, speed: 5 }),
+  new VelocityComponent({ x: 0, y: 0, speed: 3 }),
   new KeyboardInputComponent({ left: "KeyA", right: "KeyD" }),
 ]);
 
