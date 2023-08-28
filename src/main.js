@@ -23,7 +23,7 @@ const player = new Entity([
     h: 30,
   }),
   new LocationComponent({ x: center[X] - 100, y: CANVAS_HEIGHT - 40 }),
-  new VelocityComponent({ x: 0, y: 0, speed: 5 }),
+  new VelocityComponent({ x: 0, y: 0, speed: 7 }),
   new KeyboardInputComponent({ left: "KeyA", right: "KeyD" }),
 ]);
 
@@ -34,14 +34,28 @@ const ball = new Entity([
   new VelocityComponent({ x: 1, y: 1, speed: 5 }),
 ]);
 
-const brick = new Entity([
-  new BoxModelComponent({ color: "yellow", h: 25, w: 50 }),
-  new BoxCollisionComponent({ w: 50, h: 25 }),
-  new LocationComponent({ x: center[X] - 25, y: center[Y] - 12.5 }),
-  new DestructableComponent(),
-]);
+const createBrick = ({ x, y, color = "yellow" }) =>
+  new Entity([
+    new BoxModelComponent({ color, h: 25, w: 50 }),
+    new BoxCollisionComponent({ w: 50, h: 25 }),
+    new LocationComponent({ x, y }),
+    new DestructableComponent(),
+  ]);
 
-entityManager.addEntity(player).addEntity(ball).addEntity(brick);
+entityManager
+  .addEntity(player)
+  .addEntity(ball)
+  .addEntity(
+    createBrick({ color: "red", x: center[X] - 25, y: center[Y] - 12.5 })
+  )
+  .addEntity(createBrick({ color: "purple", x: 300, y: 100 }))
+  .addEntity(createBrick({ color: "orange", x: 400, y: 150 }))
+  .addEntity(createBrick({ color: "teal", x: 100, y: 50 }))
+  .addEntity(createBrick({ x: 100, y: 200 }))
+  .addEntity(createBrick({ color: "lightblue", x: 400, y: 300 }))
+  .addEntity(createBrick({ color: "darkred", x: 250, y: 300 }))
+  .addEntity(createBrick({ color: "green", x: 200, y: 300 }));
+
 function draw() {
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
