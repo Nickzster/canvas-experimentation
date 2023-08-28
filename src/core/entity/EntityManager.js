@@ -1,3 +1,5 @@
+import { MAX_ENTITIES } from "../consts";
+
 class EntityManager {
   maxEntities;
 
@@ -32,6 +34,6 @@ class EntityManager {
   }
 }
 
-const entityManager = new EntityManager();
+const entityManager = new EntityManager(MAX_ENTITIES);
 
 export default entityManager;
