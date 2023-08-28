@@ -1,5 +1,5 @@
 import componentManager from "../../component/ComponentManager";
-import { COMPONENT_TYPES, X, Y } from "../../consts";
+import { COMPONENT_TYPES } from "../../consts";
 
 const pointIsWithinBox = (point, collisionComp) => {
   return (
@@ -25,15 +25,15 @@ const detectCollision = (collisionComp1, collisionComp2) =>
     collisionComp2
   );
 
-const handleCollision = (box1, box2) => {
-  box1.direction[X] *= -1;
-  box1.direction[Y] *= -1;
-  box2.direction[X] *= -1;
-  box2.direction[Y] *= -1;
+const handleCollision = (vel1, vel2) => {
+  if (vel1) vel1.vec.reverse();
+  if (vel2) vel2.vec.reverse();
 };
 
 class CollisionSystem {
-  constructor() {}
+  constructor() {
+    return this;
+  }
 
   update(entities) {
     // TODO: improve O(n^2) alg
@@ -46,17 +46,6 @@ class CollisionSystem {
           firstEntity.id !== secondEntity.id &&
           collisionMap.get(firstEntity.id) !== secondEntity
         ) {
-          const models = [
-            componentManager.lookupComponent(
-              COMPONENT_TYPES.BOX_MODEL_COMPONENT_TYPE,
-              firstEntity
-            ),
-            componentManager.lookupComponent(
-              COMPONENT_TYPES.BOX_MODEL_COMPONENT_TYPE,
-              secondEntity
-            ),
-          ];
-
           const collisionModels = [
             componentManager.lookupComponent(
               COMPONENT_TYPES.BOX_COLLISION_COMPONENT_TYPE,
@@ -68,8 +57,20 @@ class CollisionSystem {
             ),
           ];
 
+          if (!collisionModels[0] || !collisionModels[1]) continue;
+
           if (detectCollision(collisionModels[0], collisionModels[1])) {
-            handleCollision(models[0], models[1]);
+            const velocities = [
+              componentManager.lookupComponent(
+                COMPONENT_TYPES.VELOCITY_COMPONENT_TYPE,
+                firstEntity
+              ),
+              componentManager.lookupComponent(
+                COMPONENT_TYPES.VELOCITY_COMPONENT_TYPE,
+                secondEntity
+              ),
+            ];
+            handleCollision(velocities[0], velocities[1]);
             collisionMap.set(secondEntity.id, firstEntity);
             collisionMap.set(firstEntity.id, secondEntity);
           }

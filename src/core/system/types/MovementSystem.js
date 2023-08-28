@@ -12,6 +12,7 @@ import componentManager from "../../component/ComponentManager";
 class MovementSystem {
   constructor() {}
 
+  // TODO: Clean up logic with all conditional statements.
   update(entities) {
     for (let i = 0; i < entities.length; i++) {
       const boxEntity = entities[i];
@@ -19,29 +20,51 @@ class MovementSystem {
         COMPONENT_TYPES.BOX_MODEL_COMPONENT_TYPE,
         boxEntity
       );
+      const location = componentManager.lookupComponent(
+        COMPONENT_TYPES.LOCATION_COMPONENT_TYPE,
+        boxEntity
+      );
       const collision = componentManager.lookupComponent(
         COMPONENT_TYPES.BOX_COLLISION_COMPONENT_TYPE,
         boxEntity
       );
+      const velocity = componentManager.lookupComponent(
+        COMPONENT_TYPES.VELOCITY_COMPONENT_TYPE,
+        boxEntity
+      );
       if (!model) return;
       ctx.save();
-      model.location[X] =
-        model.location[X] + 1 * model.speed * model.direction[X];
-      model.location[Y] =
-        model.location[Y] + 1 * model.speed * model.direction[Y];
+
+      if (velocity && location) {
+        location.x = location.x + 1 * velocity.vec.x;
+        location.y = location.y + 1 * velocity.vec.y;
+      }
+
       ctx.fillStyle = model.color;
 
-      ctx.translate(model.location[X], model.location[Y]);
+      if (location) {
+        ctx.translate(location.x, location.y);
+      } else {
+        ctx.translate(0, 0);
+      }
 
       ctx.fillRect(0, 0, model.w, model.h);
 
-      if (collision) collision.updateLoc(model.location[X], model.location[Y]);
+      if (collision) {
+        if (location) {
+          collision.updateLoc(location.x, location.y);
+        } else {
+          collision.updateLoc(0, 0);
+        }
+      }
 
-      if (model.location[X] + model.w >= CANVAS_WIDTH) model.direction[X] = -1;
-      if (model.location[X] <= 0) model.direction[X] = 1;
+      if (velocity && location) {
+        if (location.x + model.w >= CANVAS_WIDTH) velocity.vec.reverseX();
+        if (location.x <= 0) velocity.vec.reverseX();
 
-      if (model.location[Y] + model.h >= CANVAS_HEIGHT) model.direction[Y] = -1;
-      if (model.location[Y] <= 0) model.direction[Y] = 1;
+        if (location.y + model.h >= CANVAS_HEIGHT) velocity.vec.reverseY();
+        if (location.y <= 0) velocity.vec.reverseY();
+      }
 
       ctx.restore();
     }
