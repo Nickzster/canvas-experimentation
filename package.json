@@ -1,5 +1,6 @@
 {
   "name": "nicks-ecs-game-engine",
+  "type": "module",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
@@ -8,5 +9,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^25.0.4",
+    "rollup": "^3.28.1"
+  }
 }
