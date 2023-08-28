@@ -2,6 +2,8 @@ import {
   CANVAS_HEIGHT,
   CANVAS_WIDTH,
   COMPONENT_TYPES,
+  X,
+  Y,
   ctx,
 } from "../../consts";
 
@@ -42,29 +44,29 @@ class MovementSystem {
       ctx.save();
 
       if (keyboard && velocity) {
-        let newX = 0;
         if (inputSystem.currentKey === keyboard.moveLeft) {
-          newX = velocity.speed * -1; // TODO: mutation is not working because it is a copy, not a ref
+          velocity.vec.vec[X] = velocity.speed * -1; // TODO: mutation is not working because it is a copy, not a ref
+          velocity.updateVec({ x: velocity.speed * -1 });
         }
 
         if (inputSystem.currentKey === keyboard.moveRight) {
-          newX = velocity.speed * 1;
+          velocity.vec.vec[X] = velocity.speed * 1;
+          velocity.updateVec({ x: velocity.speed * 1 });
         }
 
         if (inputSystem.currentKey === "NONE") {
-          newX = 0;
+          velocity.vec.vec[X] = 0;
+          velocity.updateVec({ x: 0 });
         }
 
-        velocity.updateVec({ x: newX });
+        const updatedX = location.x + 1 * velocity.vec.vec[X];
 
-        velocity.vec.x = newX;
-
-        location.x = location.x + 1 * velocity.vec.x;
-      }
-
-      if (velocity && location) {
-        location.x = location.x + 1 * velocity.vec.x;
-        location.y = location.y + 1 * velocity.vec.y;
+        if (updatedX >= 0 && updatedX + collision.w <= CANVAS_WIDTH) {
+          location.x = updatedX;
+        }
+      } else if (velocity && location) {
+        location.x = location.x + 1 * velocity.vec.vec[X];
+        location.y = location.y + 1 * velocity.vec.vec[Y];
       }
 
       ctx.fillStyle = model.color;
