@@ -1,25 +1,24 @@
-export default class Vec2 {
-  x;
-  y;
+import { X, Y } from "../consts";
 
+export default class Vec2 {
   constructor({ x, y }) {
-    this.x = x;
-    this.y = y;
+    this.vec = [x, y];
+
     return this;
   }
 
   update({ x, y }) {
-    if (x) this.x = x;
-    if (y) this.y = y;
+    if (x) this.vec[X] = x;
+    if (y) this.vec[Y] = y;
   }
 
   reverseX() {
-    this.x *= -1;
+    this.vec[X] *= -1;
     return this;
   }
 
   reverseY() {
-    this.y *= -1;
+    this.vec[Y] *= -1;
     return this;
   }
 
