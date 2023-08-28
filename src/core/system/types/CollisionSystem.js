@@ -1,5 +1,6 @@
 import componentManager from "../../component/ComponentManager";
 import { COMPONENT_TYPES } from "../../consts";
+import entityManager from "../../entity/EntityManager";
 
 const pointIsWithinBox = (point, collisionComp) => {
   return (
@@ -25,16 +26,52 @@ const detectCollision = (collisionComp1, collisionComp2) =>
     collisionComp2
   );
 
-const handleCollision = (vel1, vel2) => {
-  if (vel1 && vel2) {
-    if ((vel1.x > 0 && vel2.x > 0) || (vel1.x < 0 && vel2.x < 0)) {
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+const handleCollision = (ent1, ent2) => {
+  const vel1 = componentManager.lookupComponent(
+    COMPONENT_TYPES.VELOCITY_COMPONENT_TYPE,
+    ent1
+  );
+  const vel2 = componentManager.lookupComponent(
+    COMPONENT_TYPES.VELOCITY_COMPONENT_TYPE,
+    ent2
+  );
+
+  const dest1 = componentManager.lookupComponent(
+    COMPONENT_TYPES.DESTRUCTABLE_COMPONENT,
+    ent1
+  );
+
+  const dest2 = componentManager.lookupComponent(
+    COMPONENT_TYPES.DESTRUCTABLE_COMPONENT,
+    ent2
+  );
+
+  if (dest1) entityManager.removeEntity(ent1.id);
+  if (dest2) entityManager.removeEntity(ent2.id);
+
+  // while interesting approach, can probably make this more realistic?
+  if (vel1) {
+    if (getRndInteger(0, 2) === 1) {
+      console.log("reversing entire vec");
+      vel1.vec.reverse();
+    } else {
+      console.log("reversing only y comp");
       vel1.vec.reverseY();
-      vel2.vec.reverseY();
-      return;
     }
   }
-  if (vel1) vel1.vec.reverse();
-  if (vel2) vel2.vec.reverse();
+  if (vel2) {
+    if (getRndInteger(0, 2) === 1) {
+      console.log("reversing entire vec");
+      vel2.vec.reverse();
+    } else {
+      console.log("reversing only y comp");
+      vel2.vec.reverseY();
+    }
+  }
 };
 
 class CollisionSystem {
@@ -67,17 +104,7 @@ class CollisionSystem {
           if (!collisionModels[0] || !collisionModels[1]) continue;
 
           if (detectCollision(collisionModels[0], collisionModels[1])) {
-            const velocities = [
-              componentManager.lookupComponent(
-                COMPONENT_TYPES.VELOCITY_COMPONENT_TYPE,
-                firstEntity
-              ),
-              componentManager.lookupComponent(
-                COMPONENT_TYPES.VELOCITY_COMPONENT_TYPE,
-                secondEntity
-              ),
-            ];
-            handleCollision(velocities[0], velocities[1]);
+            handleCollision(firstEntity, secondEntity);
             collisionMap.set(secondEntity.id, firstEntity);
             collisionMap.set(firstEntity.id, secondEntity);
           }
