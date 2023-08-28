@@ -8,7 +8,7 @@ class InputSystem {
     });
 
     document.addEventListener("keyup", (e) => {
-      this.currentKey = "NONE";
+      if (this.currentKey === e.code) this.currentKey = "NONE";
     });
   }
 }
