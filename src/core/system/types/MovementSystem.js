@@ -2,12 +2,11 @@ import {
   CANVAS_HEIGHT,
   CANVAS_WIDTH,
   COMPONENT_TYPES,
-  X,
-  Y,
   ctx,
 } from "../../consts";
 
 import componentManager from "../../component/ComponentManager";
+import inputSystem from "./InputSystem";
 
 class MovementSystem {
   constructor() {}
@@ -15,25 +14,43 @@ class MovementSystem {
   // TODO: Clean up logic with all conditional statements.
   update(entities) {
     for (let i = 0; i < entities.length; i++) {
-      const boxEntity = entities[i];
+      const entity = entities[i];
       const model = componentManager.lookupComponent(
         COMPONENT_TYPES.BOX_MODEL_COMPONENT_TYPE,
-        boxEntity
+        entity
       );
       const location = componentManager.lookupComponent(
         COMPONENT_TYPES.LOCATION_COMPONENT_TYPE,
-        boxEntity
+        entity
       );
       const collision = componentManager.lookupComponent(
         COMPONENT_TYPES.BOX_COLLISION_COMPONENT_TYPE,
-        boxEntity
+        entity
       );
       const velocity = componentManager.lookupComponent(
         COMPONENT_TYPES.VELOCITY_COMPONENT_TYPE,
-        boxEntity
+        entity
       );
+
+      const keyboard = componentManager.lookupComponent(
+        COMPONENT_TYPES.KEYBOARD_INPUT_COMPONENT,
+        entity
+      );
+
       if (!model) return;
+
       ctx.save();
+
+      if (keyboard && velocity) {
+        if (inputSystem.currentKey === keyboard.moveLeft) {
+          console.log("moving left");
+          location.x = location.x + 1 * velocity.speed * -1;
+        }
+        if (inputSystem.currentKey === keyboard.moveRight) {
+          console.log("moving right");
+          location.x = location.x + 1 * velocity.speed * 1;
+        }
+      }
 
       if (velocity && location) {
         location.x = location.x + 1 * velocity.vec.x;
