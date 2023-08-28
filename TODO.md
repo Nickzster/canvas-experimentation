@@ -4,9 +4,9 @@ This repository is a very simple implementation of an engine utilizing the Entit
 
 ## TODO
 
-- [ ] Look into integrating TypeScript
-- [ ] Add `onCollisionEnter` and `onCollisionExit` handlers for collision components.
+- [ ] Add `onCollision` handler for collision components.
 - [ ] Add better collision checks
+- [ ] Look into integrating TypeScript
 - [ ] Optimize collision system (since algorithm is O(n^2) )
 - [ ] Optimize component lookup via signatures
 - [ ] Build a player controller system
