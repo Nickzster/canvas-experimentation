@@ -8,6 +8,11 @@ export default class Vec2 {
     return this;
   }
 
+  update({ x, y }) {
+    if (x) this.x = x;
+    if (y) this.y = y;
+  }
+
   reverseX() {
     this.x *= -1;
     return this;
