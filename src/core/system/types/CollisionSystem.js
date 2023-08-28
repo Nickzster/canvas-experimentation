@@ -56,19 +56,15 @@ const handleCollision = (ent1, ent2) => {
   // while interesting approach, can probably make this more realistic?
   if (vel1) {
     if (getRndInteger(0, 2) === 1) {
-      console.log("reversing entire vec");
       vel1.vec.reverse();
     } else {
-      console.log("reversing only y comp");
       vel1.vec.reverseY();
     }
   }
   if (vel2) {
     if (getRndInteger(0, 2) === 1) {
-      console.log("reversing entire vec");
       vel2.vec.reverse();
     } else {
-      console.log("reversing only y comp");
       vel2.vec.reverseY();
     }
   }
