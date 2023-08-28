@@ -1,5 +1,3 @@
-import { X, Y } from "../consts";
-
 export default class Vec2 {
   x;
   y;
