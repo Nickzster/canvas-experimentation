@@ -42,14 +42,24 @@ class MovementSystem {
       ctx.save();
 
       if (keyboard && velocity) {
+        let newX = 0;
         if (inputSystem.currentKey === keyboard.moveLeft) {
-          console.log("moving left");
-          location.x = location.x + 1 * velocity.speed * -1;
+          newX = velocity.speed * -1; // TODO: mutation is not working because it is a copy, not a ref
         }
+
         if (inputSystem.currentKey === keyboard.moveRight) {
-          console.log("moving right");
-          location.x = location.x + 1 * velocity.speed * 1;
+          newX = velocity.speed * 1;
         }
+
+        if (inputSystem.currentKey === "NONE") {
+          newX = 0;
+        }
+
+        velocity.updateVec({ x: newX });
+
+        velocity.vec.x = newX;
+
+        location.x = location.x + 1 * velocity.vec.x;
       }
 
       if (velocity && location) {
