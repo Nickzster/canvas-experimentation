@@ -9,6 +9,7 @@ import LocationComponent from "./core/component/types/LocationComponent";
 import VelocityComponent from "./core/component/types/VelocityComponent";
 import KeyboardInputComponent from "./core/component/types/KeyboardInputComponent";
 import DestructableComponent from "./core/component/types/DestructableComponent";
+import PaddleCollisionComponent from "./extensions/component/PaddleCollisionComponent";
 
 const center = [CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2];
 
@@ -18,10 +19,7 @@ const player = new Entity([
     w: 120,
     h: 30,
   }),
-  new BoxCollisionComponent({
-    w: 120,
-    h: 30,
-  }),
+  new PaddleCollisionComponent({ w: 120, h: 30 }),
   new LocationComponent({ x: center[X] - 100, y: CANVAS_HEIGHT - 40 }),
   new VelocityComponent({ x: 0, y: 0, speed: 7 }),
   new KeyboardInputComponent({ left: "KeyA", right: "KeyD" }),
