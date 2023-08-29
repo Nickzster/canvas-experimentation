@@ -7,7 +7,7 @@ export default class VelocityComponent extends Component {
   speed;
 
   constructor({ x, y, speed = 0 }) {
-    super(COMPONENT_TYPES.VELOCITY_COMPONENT_TYPE);
+    super("VELOCITY_COMPONENT");
     this.speed = speed;
     this.vec = new Vec2({ x: x * speed, y: y * speed });
   }

@@ -13,7 +13,7 @@ class KeyboardInputComponent extends Component {
     left = undefined,
     right = undefined,
   }) {
-    super(COMPONENT_TYPES.KEYBOARD_INPUT_COMPONENT);
+    super("KEYBOARD_INPUT_COMPONENT");
     this.moveUp = up;
     this.moveDown = down;
     this.moveLeft = left;

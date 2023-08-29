@@ -2,14 +2,14 @@ import { COMPONENT_TYPES } from "../../consts";
 import Component from "../Component";
 
 export default class BoxCollisionComponent extends Component {
-  x = 0;
+  x = 0; // TODO: Defer to location component.
   y = 0;
 
   h = 0;
   w = 0;
 
   constructor({ w, h }) {
-    super(COMPONENT_TYPES.BOX_COLLISION_COMPONENT_TYPE);
+    super("BOX_COLLISION_COMPONENT");
     this.setAttributes(w, h);
     return this;
   }

@@ -3,6 +3,6 @@ import Component from "../Component";
 
 export default class DestructableComponent extends Component {
   constructor() {
-    super(COMPONENT_TYPES.DESTRUCTABLE_COMPONENT);
+    super("DESTRUCTABLE_COMPONENT");
   }
 }

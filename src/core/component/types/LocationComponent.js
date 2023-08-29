@@ -6,7 +6,7 @@ export default class LocationComponent extends Component {
   y;
 
   constructor({ x, y }) {
-    super(COMPONENT_TYPES.LOCATION_COMPONENT_TYPE);
+    super("LOCATION_COMPONENT");
     this.x = x;
     this.y = y;
     this.setAttributes({ x, y });

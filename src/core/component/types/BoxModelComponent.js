@@ -9,7 +9,7 @@ export default class BoxModelComponent extends Component {
   h = 0;
 
   constructor({ color = "black", w = 0, h = 0 }) {
-    super(COMPONENT_TYPES.BOX_MODEL_COMPONENT_TYPE);
+    super("BOX_MODEL_COMPONENT");
     this.setAttributes({ color, w, h });
     return this;
   }

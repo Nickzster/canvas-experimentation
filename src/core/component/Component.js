@@ -1,7 +1,11 @@
-export default class Component {
-  type = -1;
+import componentManager from "./ComponentManager";
 
-  constructor(type) {
-    this.type = type;
+export default class Component {
+  tag = "BASE_COMPONENT";
+  id = -1;
+
+  constructor(tag) {
+    this.tag = tag;
+    this.id = componentManager.register(tag);
   }
 }
