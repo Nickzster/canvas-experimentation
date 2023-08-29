@@ -37,8 +37,6 @@ class MovementSystem {
         entity
       );
 
-      console.log("model", model);
-
       if (!model) return;
 
       ctx.save();
