@@ -7,6 +7,7 @@ import LocationComponent from "../../component/types/LocationComponent";
 import BoxCollisionComponent from "../../component/types/BoxCollisionComponent";
 import VelocityComponent from "../../component/types/VelocityComponent";
 import KeyboardInputComponent from "../../component/types/KeyboardInputComponent";
+import PaddleCollisionComponent from "../../../extensions/component/PaddleCollisionComponent";
 
 class MovementSystem {
   constructor() {}
@@ -25,6 +26,11 @@ class MovementSystem {
       );
       const collision = componentManager.lookupComponent(
         BoxCollisionComponent.getComponentId(),
+        entity
+      );
+
+      const paddleCollision = componentManager.lookupComponent(
+        PaddleCollisionComponent.getComponentId(),
         entity
       );
       const velocity = componentManager.lookupComponent(
@@ -59,8 +65,15 @@ class MovementSystem {
 
         const updatedX = location.x + 1 * velocity.vec.vec[X];
 
-        if (updatedX >= 0 && updatedX + collision.w <= CANVAS_WIDTH) {
-          location.x = updatedX;
+        if (collision) {
+          if (updatedX >= 0 && updatedX + collision.w <= CANVAS_WIDTH) {
+            location.x = updatedX;
+          }
+        }
+        if (paddleCollision) {
+          if (updatedX >= 0 && updatedX + paddleCollision.w <= CANVAS_WIDTH) {
+            location.x = updatedX;
+          }
         }
       } else if (velocity && location) {
         location.x = location.x + 1 * velocity.vec.vec[X];
@@ -76,6 +89,14 @@ class MovementSystem {
       }
 
       ctx.fillRect(0, 0, model.w, model.h);
+
+      if (paddleCollision) {
+        if (location) {
+          paddleCollision.updateLoc(location.x, location.y);
+        } else {
+          collision.updateLoc(0, 0);
+        }
+      }
 
       if (collision) {
         if (location) {
