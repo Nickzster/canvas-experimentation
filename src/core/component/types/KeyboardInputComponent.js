@@ -1,11 +1,16 @@
-import { COMPONENT_TYPES } from "../../consts";
 import Component from "../Component";
+import componentManager from "../ComponentManager";
 
+const COMPONENT_TAG = "KEYBOARD_INPUT_COMPONENT";
 class KeyboardInputComponent extends Component {
   moveUp;
   moveDown;
   moveLeft;
   moveRight;
+
+  static getComponentId() {
+    return componentManager.lookupId(COMPONENT_TAG);
+  }
 
   constructor({
     up = undefined,
@@ -13,7 +18,7 @@ class KeyboardInputComponent extends Component {
     left = undefined,
     right = undefined,
   }) {
-    super("KEYBOARD_INPUT_COMPONENT");
+    super(COMPONENT_TAG);
     this.moveUp = up;
     this.moveDown = down;
     this.moveLeft = left;

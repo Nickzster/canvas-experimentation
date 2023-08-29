@@ -1,13 +1,19 @@
 import Component from "../Component";
-import { COMPONENT_TYPES } from "../../consts";
 import Vec2 from "../../primitives/Vec2";
+import componentManager from "../ComponentManager";
+
+const COMPONENT_TAG = "VELOCITY_COMPONENT";
 
 export default class VelocityComponent extends Component {
   vec;
   speed;
 
+  static getComponentId() {
+    return componentManager.lookupId(COMPONENT_TAG);
+  }
+
   constructor({ x, y, speed = 0 }) {
-    super("VELOCITY_COMPONENT");
+    super(COMPONENT_TAG);
     this.speed = speed;
     this.vec = new Vec2({ x: x * speed, y: y * speed });
   }

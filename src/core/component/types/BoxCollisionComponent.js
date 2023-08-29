@@ -1,5 +1,7 @@
-import { COMPONENT_TYPES } from "../../consts";
 import Component from "../Component";
+import componentManager from "../ComponentManager";
+
+const COMPONENT_TAG = "BOX_COLLISION_COMPONENT";
 
 export default class BoxCollisionComponent extends Component {
   x = 0; // TODO: Defer to location component.
@@ -8,8 +10,12 @@ export default class BoxCollisionComponent extends Component {
   h = 0;
   w = 0;
 
+  static getComponentId() {
+    return componentManager.lookupId(COMPONENT_TAG);
+  }
+
   constructor({ w, h }) {
-    super("BOX_COLLISION_COMPONENT");
+    super(COMPONENT_TAG);
     this.setAttributes(w, h);
     return this;
   }
