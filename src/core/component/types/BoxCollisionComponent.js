@@ -4,7 +4,7 @@ import componentManager from "../ComponentManager";
 const COMPONENT_TAG = "BOX_COLLISION_COMPONENT";
 
 export default class BoxCollisionComponent extends Component {
-  x = 0; // TODO: Defer to location component.
+  x = 0; // TODO: Move to location component.
   y = 0;
 
   h = 0;
@@ -23,10 +23,12 @@ export default class BoxCollisionComponent extends Component {
   setAttributes(w, h) {
     this.w = w;
     this.h = h;
+    return this;
   }
 
   updateLoc(newX, newY) {
     this.x = newX;
     this.y = newY;
+    return this;
   }
 }
