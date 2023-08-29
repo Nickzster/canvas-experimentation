@@ -1,6 +1,8 @@
 class ComponentManager {
   MAX_COMPONENTS = 100;
 
+  static instance = null;
+
   constructor() {
     this.comp_ids = new Array(this.MAX_COMPONENTS).fill(0).map((_, idx) => idx);
     this.comp_tags = new Map();
@@ -19,6 +21,11 @@ class ComponentManager {
       this.comp_tags.set(tag, id);
     }
 
+    return id;
+  }
+
+  lookupId(tag) {
+    const id = this.comp_tags.get(tag);
     return id;
   }
 }
