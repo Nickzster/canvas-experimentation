@@ -34,11 +34,12 @@ const ball = new Entity([
   new VelocityComponent({ x: 1, y: 1, speed: 5 }),
 ]);
 
-const createBrick = ({ x, y, color = "yellow" }) =>
+const createBrick = ({ x, y, color = "yellow", xComp = 0, speed = 1 }) =>
   new Entity([
     new BoxModelComponent({ color, h: 25, w: 50 }),
     new BoxCollisionComponent({ w: 50, h: 25 }),
     new LocationComponent({ x, y }),
+    new VelocityComponent({ x: xComp, y: 0, speed }),
     new DestructableComponent(),
   ]);
 
@@ -51,7 +52,7 @@ entityManager
   .addEntity(createBrick({ color: "purple", x: 300, y: 100 }))
   .addEntity(createBrick({ color: "orange", x: 400, y: 150 }))
   .addEntity(createBrick({ color: "teal", x: 100, y: 50 }))
-  .addEntity(createBrick({ x: 100, y: 200 }))
+  .addEntity(createBrick({ x: 100, y: 200, xComp: 1 }))
   .addEntity(createBrick({ color: "lightblue", x: 400, y: 300 }))
   .addEntity(createBrick({ color: "darkred", x: 250, y: 300 }))
   .addEntity(createBrick({ color: "green", x: 200, y: 300 }));
