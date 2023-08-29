@@ -1,5 +1,7 @@
 import componentManager from "../../component/ComponentManager";
-import { COMPONENT_TYPES } from "../../consts";
+import BoxCollisionComponent from "../../component/types/BoxCollisionComponent";
+import DestructableComponent from "../../component/types/DestructableComponent";
+import VelocityComponent from "../../component/types/VelocityComponent";
 import entityManager from "../../entity/EntityManager";
 
 const pointIsWithinBox = (point, collisionComp) => {
@@ -32,21 +34,21 @@ function getRndInteger(min, max) {
 
 const handleCollision = (ent1, ent2) => {
   const vel1 = componentManager.lookupComponent(
-    COMPONENT_TYPES.VELOCITY_COMPONENT_TYPE,
+    VelocityComponent.getComponentId(),
     ent1
   );
   const vel2 = componentManager.lookupComponent(
-    COMPONENT_TYPES.VELOCITY_COMPONENT_TYPE,
+    VelocityComponent.getComponentId(),
     ent2
   );
 
   const dest1 = componentManager.lookupComponent(
-    COMPONENT_TYPES.DESTRUCTABLE_COMPONENT,
+    DestructableComponent.getComponentId(),
     ent1
   );
 
   const dest2 = componentManager.lookupComponent(
-    COMPONENT_TYPES.DESTRUCTABLE_COMPONENT,
+    DestructableComponent.getComponentId(),
     ent2
   );
 
@@ -88,11 +90,11 @@ class CollisionSystem {
         ) {
           const collisionModels = [
             componentManager.lookupComponent(
-              COMPONENT_TYPES.BOX_COLLISION_COMPONENT_TYPE,
+              BoxCollisionComponent.getComponentId(),
               firstEntity
             ),
             componentManager.lookupComponent(
-              COMPONENT_TYPES.BOX_COLLISION_COMPONENT_TYPE,
+              BoxCollisionComponent.getComponentId(),
               secondEntity
             ),
           ];

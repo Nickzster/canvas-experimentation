@@ -1,14 +1,12 @@
-import {
-  CANVAS_HEIGHT,
-  CANVAS_WIDTH,
-  COMPONENT_TYPES,
-  X,
-  Y,
-  ctx,
-} from "../../consts";
+import { CANVAS_HEIGHT, CANVAS_WIDTH, X, Y, ctx } from "../../consts";
 
 import componentManager from "../../component/ComponentManager";
 import inputSystem from "./InputSystem";
+import BoxModelComponent from "../../component/types/BoxModelComponent";
+import LocationComponent from "../../component/types/LocationComponent";
+import BoxCollisionComponent from "../../component/types/BoxCollisionComponent";
+import VelocityComponent from "../../component/types/VelocityComponent";
+import KeyboardInputComponent from "../../component/types/KeyboardInputComponent";
 
 class MovementSystem {
   constructor() {}
@@ -18,26 +16,28 @@ class MovementSystem {
     for (let i = 0; i < entities.length; i++) {
       const entity = entities[i];
       const model = componentManager.lookupComponent(
-        COMPONENT_TYPES.BOX_MODEL_COMPONENT_TYPE,
+        BoxModelComponent.getComponentId(),
         entity
       );
       const location = componentManager.lookupComponent(
-        COMPONENT_TYPES.LOCATION_COMPONENT_TYPE,
+        LocationComponent.getComponentId(),
         entity
       );
       const collision = componentManager.lookupComponent(
-        COMPONENT_TYPES.BOX_COLLISION_COMPONENT_TYPE,
+        BoxCollisionComponent.getComponentId(),
         entity
       );
       const velocity = componentManager.lookupComponent(
-        COMPONENT_TYPES.VELOCITY_COMPONENT_TYPE,
+        VelocityComponent.getComponentId(),
         entity
       );
 
       const keyboard = componentManager.lookupComponent(
-        COMPONENT_TYPES.KEYBOARD_INPUT_COMPONENT,
+        KeyboardInputComponent.getComponentId(),
         entity
       );
+
+      console.log("model", model);
 
       if (!model) return;
 
