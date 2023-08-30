@@ -64,15 +64,18 @@ class MovementSystem {
         }
 
         const updatedX = location.x + 1 * velocity.vec.vec[X];
+        const updatedY = location.y + 1 * velocity.vec.vec[Y];
 
         if (collision) {
           if (updatedX >= 0 && updatedX + collision.w <= CANVAS_WIDTH) {
             location.x = updatedX;
+            location.y = updatedY;
           }
         }
         if (paddleCollision) {
-          if (updatedX >= 0 && updatedX + paddleCollision.w <= CANVAS_WIDTH) {
+          if (updatedX >= 0 && updatedX + paddleCollision.w < CANVAS_WIDTH) {
             location.x = updatedX;
+            location.y = updatedY;
           }
         }
       } else if (velocity && location) {
@@ -106,13 +109,13 @@ class MovementSystem {
         }
       }
 
-      if (velocity && location) {
-        if (location.x + model.w >= CANVAS_WIDTH) velocity.vec.reverseX();
-        if (location.x <= 0) velocity.vec.reverseX();
+      // if (velocity && location) {
+      //   if (location.x + model.w >= CANVAS_WIDTH) velocity.vec.reverseX();
+      //   if (location.x <= 0) velocity.vec.reverseX();
 
-        if (location.y + model.h >= CANVAS_HEIGHT) velocity.vec.reverseY();
-        if (location.y <= 0) velocity.vec.reverseY();
-      }
+      //   if (location.y + model.h >= CANVAS_HEIGHT) velocity.vec.reverseY();
+      //   if (location.y <= 0) velocity.vec.reverseY();
+      // }
 
       ctx.restore();
     }
