@@ -15,6 +15,10 @@ class EntityManager {
       .map((_, idx) => idx); // generate an array of ints in ascending order.;
   }
 
+  findEntityById(id) {
+    return this.entities.find((entity) => entity.id === id);
+  }
+
   addEntity(entity) {
     if (this.entities.length >= this.maxEntities) {
       console.error("max entities exceeded!");
