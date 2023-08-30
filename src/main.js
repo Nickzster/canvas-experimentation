@@ -10,6 +10,11 @@ import VelocityComponent from "./core/component/types/VelocityComponent";
 import KeyboardInputComponent from "./core/component/types/KeyboardInputComponent";
 import DestructableComponent from "./core/component/types/DestructableComponent";
 import PaddleCollisionComponent from "./extensions/component/PaddleCollisionComponent";
+import worldSystem from "./core/system/types/WorldSystem";
+import TagComponent from "./core/component/types/TagComponent";
+import collisionDetectionSystem from "./core/system/types/CollisionDetectionSystem";
+import collisionHandlingSystem from "./core/system/types/CollisionHandlingSystem";
+import worldBarrierSystem from "./core/system/types/WorldBarrierSystem";
 
 const center = [CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2];
 
@@ -17,12 +22,13 @@ const player = new Entity([
   new BoxModelComponent({
     color: "black",
     w: 120,
-    h: 30,
+    h: 15,
   }),
-  new PaddleCollisionComponent({ w: 120, h: 30 }),
-  new LocationComponent({ x: center[X] - 100, y: CANVAS_HEIGHT - 40 }),
+  new PaddleCollisionComponent({ w: 120, h: 15 }),
+  new LocationComponent({ x: center[X] - 60, y: CANVAS_HEIGHT - 50 }),
   new VelocityComponent({ x: 0, y: 0, speed: 7 }),
   new KeyboardInputComponent({ left: "KeyA", right: "KeyD" }),
+  new TagComponent("player"),
 ]);
 
 const ball = new Entity([
@@ -30,6 +36,7 @@ const ball = new Entity([
   new BoxCollisionComponent({ w: 10, h: 10 }),
   new LocationComponent({ x: 10, y: 10 }),
   new VelocityComponent({ x: 1, y: 1, speed: 5 }),
+  new TagComponent("ball"),
 ]);
 
 const createBrick = ({ x, y, color = "yellow", xComp = 0, speed = 1 }) =>
@@ -39,21 +46,38 @@ const createBrick = ({ x, y, color = "yellow", xComp = 0, speed = 1 }) =>
     new LocationComponent({ x, y }),
     new VelocityComponent({ x: xComp, y: 0, speed }),
     new DestructableComponent(),
+    new TagComponent(`${color} brick`),
   ]);
 
-entityManager
-  .addEntity(player)
-  .addEntity(ball)
-  .addEntity(
-    createBrick({ color: "red", x: center[X] - 25, y: center[Y] - 12.5 })
-  )
-  .addEntity(createBrick({ color: "purple", x: 300, y: 100 }))
-  .addEntity(createBrick({ color: "orange", x: 400, y: 150 }))
-  .addEntity(createBrick({ color: "teal", x: 100, y: 50 }))
-  .addEntity(createBrick({ x: 100, y: 200, xComp: 1 }))
-  .addEntity(createBrick({ color: "lightblue", x: 400, y: 300 }))
-  .addEntity(createBrick({ color: "darkred", x: 250, y: 300 }))
-  .addEntity(createBrick({ color: "green", x: 200, y: 300 }));
+entityManager.addEntity(player).addEntity(ball);
+
+const xOffsets = [
+  50,
+  50 * 2 + 10,
+  50 * 3 + 20,
+  50 * 4 + 30,
+  50 * 5 + 40,
+  50 * 6 + 50,
+  50 * 7 + 60,
+  50 * 8 + 70,
+  50 * 9 + 80,
+  50 * 10 + 90,
+  50 * 11 + 100,
+  50 * 12 + 110,
+  50 * 13 + 120,
+  50 * 14 + 130,
+  50 * 15 + 140,
+];
+
+const yOffsets = [100, 100 + 35, 135 + 35, 170 + 35, 205 + 35];
+
+for (let i = 0; i < xOffsets.length; i++) {
+  for (let j = 0; j < yOffsets.length; j++) {
+    entityManager.addEntity(
+      createBrick({ color: "red", x: xOffsets[i], y: yOffsets[j] })
+    );
+  }
+}
 
 function draw() {
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -61,7 +85,11 @@ function draw() {
   const objects = entityManager.entities;
 
   movementSystem.update(objects);
-  collisionSystem.update(objects);
+
+  worldSystem.update(objects);
+  const collisions = collisionDetectionSystem.update(objects);
+  collisionHandlingSystem.update(collisions);
+  worldBarrierSystem.update(objects);
 
   window.requestAnimationFrame(draw);
 }
