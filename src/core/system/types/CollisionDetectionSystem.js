@@ -48,17 +48,29 @@ class CollisionDetectionSystem {
     if (this.handleOutOfBoundsCheck({ x, y })) return;
 
     const adjacent = worldSystem.world[x][y];
+
+    // using a set to track unique collisions
+    let adjset = collisionsMap.get(adjacent);
+    if (adjset === undefined) adjset = new Set();
+
+    let idset = collisionsMap.get(id);
+    if (idset === undefined) idset = new Set();
+
     if (
       adjacent !== undefined &&
       adjacent !== id &&
-      collisionsMap.get(adjacent) !== id
+      !adjset.has(id) &&
+      !idset.has(adjacent)
     ) {
-      //console.log(worldSystem.world);
       collisionsArray.push(
         newObjectToObjectCollision({ x, y, id1: id, id2: adjacent })
       );
-      collisionsMap.set(adjacent, id);
-      collisionsMap.set(id, adjacent);
+
+      adjset.add(id);
+      idset.add(adjacent);
+
+      collisionsMap.set(adjacent, adjset);
+      collisionsMap.set(id, idset);
       return;
     }
   }
