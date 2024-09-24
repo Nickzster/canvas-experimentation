@@ -27,7 +27,8 @@ const player = new Entity([
   new PaddleCollisionComponent({ w: 120, h: 15 }),
   new LocationComponent({ x: center[X] - 60, y: CANVAS_HEIGHT - 50 }),
   new VelocityComponent({ x: 0, y: 0, speed: 7 }),
-  new KeyboardInputComponent({ left: "KeyA", right: "KeyD" }),
+  //  new KeyboardInputComponent({ left: "KeyA", right: "KeyD" }),
+  new KeyboardInputComponent({ left: "ArrowLeft", right: "ArrowRight" }),
   new TagComponent("player"),
 ]);
 
@@ -74,7 +75,7 @@ const yOffsets = [100, 100 + 35, 135 + 35, 170 + 35, 205 + 35];
 for (let i = 0; i < xOffsets.length; i++) {
   for (let j = 0; j < yOffsets.length; j++) {
     entityManager.addEntity(
-      createBrick({ color: "red", x: xOffsets[i], y: yOffsets[j] })
+      createBrick({ color: "red", x: xOffsets[i], y: yOffsets[j] }),
     );
   }
 }
