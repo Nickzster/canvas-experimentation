@@ -7,7 +7,7 @@ export const CANVAS_HEIGHT = 768;
 const canvas = document.getElementById("sandbox");
 export const ctx = canvas.getContext("2d");
 
-export const MAX_ENTITIES = 100;
+export const MAX_COMPONENTS = 100;
 
 export const COLLISION_TYPES = {
   OBJECT_TO_OBJECT: 0,
