@@ -2,7 +2,7 @@ export const X = 0;
 export const Y = 1;
 
 export const CANVAS_WIDTH = 1024;
-export const CANVAS_HEIGHT = 768;
+export const CANVAS_HEIGHT = 512;
 
 const canvas = document.getElementById("sandbox");
 export const ctx = canvas.getContext("2d");
