@@ -7,7 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "rollup -c -w",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "deploy:sync-s3": "aws s3 cp index.js index.html s3://brickbuster.nickzimm.me",
+    "deploy:invalidate-cloudfront": "aws cloudfront create-invalidation --distribution-id E19WC034UMZO99 --paths '/*'"
   },
   "keywords": [],
   "author": "",
